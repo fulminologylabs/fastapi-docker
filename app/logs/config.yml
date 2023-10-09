@@ -21,8 +21,11 @@ handlers:
 
 loggers:
   uvicorn:
-    error:
+    info:
       propagate: true
+  gunicorn:
+    info:
+    propagate: true
 
 root:
   level: INFO

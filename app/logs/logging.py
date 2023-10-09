@@ -5,6 +5,9 @@ from app.config.config import config
 from app.logs.custom_logging import CustomizeLogger
 
 def init_logger() -> logging.Logger:
+    """
+        For use with CustomizeLogger
+    """
     logger = logging.getLogger(__name__)
     log_dir = config.LOG_DIR
 
