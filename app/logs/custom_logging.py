@@ -1,18 +1,14 @@
 import sys
-import json
+import yaml
 import logging
 from pathlib import Path
 from loguru import logger
 
-
-def configure_framework_logging():
-    gunicorn_error_logger = logging.getLogger("gunicorn.error")
-    gunicorn_logger = logging.getLogger("gunicorn")
-    uvicorn_access_logger = logging.getLogger("uvicorn.access")
-    uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
-    return gunicorn_error_logger, gunicorn_logger
+def init_logger():
+    with open('config.yml') as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+        logging.config.dictConfig(config)
     
-
 class CustomizeLogger:
     @classmethod
     def make_logger(cls, config_path: Path):
