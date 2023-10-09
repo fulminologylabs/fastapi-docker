@@ -10,7 +10,8 @@ def init_logger():
     Application Platform Deployment
     default log store.
     """
-    with open('config.yml') as f:
+    config_file = Path(__file__).with_name("config.yml")
+    with open(config_file) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
         logging.config.dictConfig(config)
     
