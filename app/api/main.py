@@ -2,7 +2,6 @@ import os
 import logging
 import uvicorn
 from fastapi import FastAPI
-from app.utils.logging import init_logger
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -26,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger("fastapi")
+logger = logging.getLogger("gunicorn.error")
 
 @app.get("/health-check")
 async def root():
