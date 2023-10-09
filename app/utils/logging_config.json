@@ -1,6 +1,6 @@
 {
     "logger": {
-      "path": "./",
+      "path": "/var/log/hub/",
       "filename": "general.log",
       "level": "debug",
       "rotation": "20 days",
