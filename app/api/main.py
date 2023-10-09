@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.logger import logger as fastapi_logger
-from app.logs.custom_logging import configure_framework_logging
 
 active_env = os.environ["ENVIRONMENT"]
 load_environment(active_env)
@@ -16,11 +15,15 @@ app = FastAPI(
     description="quickstart template."
 )
 
-loggers: tuple = configure_framework_logging()
-fastapi_logger.handlers = loggers[0]
+gunicorn_error_logger = logging.getLogger("gunicorn.error")
+gunicorn_logger = logging.getLogger("gunicorn")
+uvicorn_access_logger = logging.getLogger("uvicorn.access")
+uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
+
+fastapi_logger.handlers = gunicorn_error_logger.handlers
 
 if __name__ != "__main__":
-    fastapi_logger.setLevel(loggers[1].level)
+    fastapi_logger.setLevel()
 else:
     fastapi_logger.setLevel(logging.DEBUG)
 
@@ -34,12 +37,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger("fastapi")
-
 @app.get("/health-check")
 async def root():
     try:
-        logger.info(f"Running in: {active_env}")
+        logging.info(f"Running {active_env}")
         return { "status": "healthy" }
     except Exception as e:
         return { 
@@ -48,4 +49,4 @@ async def root():
             }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="DEBUG")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
