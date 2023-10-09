@@ -5,11 +5,20 @@ from pathlib import Path
 from loguru import logger
 
 def init_logger():
+    """
+    For easy use with Digital Ocean
+    Application Platform Deployment
+    default log store.
+    """
     with open('config.yml') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
         logging.config.dictConfig(config)
     
 class CustomizeLogger:
+    """
+    To be used with a logging_config.json
+    file, living at the root of app directory.
+    """
     @classmethod
     def make_logger(cls, config_path: Path):
         config = cls.load_logging_config(config_path)
