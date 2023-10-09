@@ -31,7 +31,7 @@ logger = logging.getLogger("fastapi")
 @app.get("/health-check")
 async def root():
     try:
-        app.logger.info(f"Running in: {active_env}")
+        logger.info(f"Running in: {active_env}")
         return { "status": "healthy" }
     except Exception as e:
         return { 
