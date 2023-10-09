@@ -1,7 +1,17 @@
 import sys
 import json
+import logging
 from pathlib import Path
 from loguru import logger
+
+
+def configure_framework_logging():
+    gunicorn_error_logger = logging.getLogger("gunicorn.error")
+    gunicorn_logger = logging.getLogger("gunicorn")
+    uvicorn_access_logger = logging.getLogger("uvicorn.access")
+    uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
+    return gunicorn_error_logger, gunicorn_logger
+    
 
 class CustomizeLogger:
     @classmethod
@@ -51,5 +61,4 @@ class CustomizeLogger:
         with open(config_path) as config_file:
             config = json.load(config_file)
         return config
-    
     

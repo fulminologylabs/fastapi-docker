@@ -4,6 +4,8 @@ import uvicorn
 from fastapi import FastAPI
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.logger import logger as fastapi_logger
+from app.logs.custom_logging import configure_framework_logging
 
 active_env = os.environ["ENVIRONMENT"]
 load_environment(active_env)
@@ -14,7 +16,14 @@ app = FastAPI(
     description="quickstart template."
 )
 
-#app.logger = init_logger()
+loggers: tuple = configure_framework_logging()
+fastapi_logger.handlers = loggers[0]
+
+if __name__ != "__main__":
+    fastapi_logger.setLevel(loggers[1].level)
+else:
+    fastapi_logger.setLevel(logging.DEBUG)
+
 origins = ["*"] # NOTE ideally we can add our cron service
                 #      and NextGen Leads to this list.
 app.add_middleware(
@@ -24,8 +33,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-logger = logging.getLogger("gunicorn.error")
 
 @app.get("/health-check")
 async def root():
@@ -39,4 +46,4 @@ async def root():
             }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="DEBUG")
