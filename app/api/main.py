@@ -15,7 +15,7 @@ app = FastAPI(
     description="quickstart template."
 )
 
-app.logger = init_logger()
+#app.logger = init_logger()
 origins = ["*"] # NOTE ideally we can add our cron service
                 #      and NextGen Leads to this list.
 app.add_middleware(
