@@ -18,3 +18,12 @@ python app/main.py --reload
 
 # swagger api documentation
 visit: http://localhost:8000/docs after running the application locally
+
+# build with Docker
+docker build -t fastapi-docker .
+
+# run with docker
+docker run -p 8000:8000 fastapi-docker
+
+# run with docker in detached mode
+docker run -d -p 8000:8000 fastapi-docker

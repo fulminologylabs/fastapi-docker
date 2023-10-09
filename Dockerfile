@@ -5,12 +5,13 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /server
 
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY ./app ./app
 COPY ./scripts ./scripts
 COPY ./alembic.ini ./
+COPY ./requirements.txt ./
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # create log directory
 RUN mkdir -p /var/log/hub
