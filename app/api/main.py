@@ -1,7 +1,13 @@
+import os
+import logging
 import uvicorn
 from fastapi import FastAPI
-from app.config.config import Config
+from app.utils.logging import init_logger
+from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
+
+active_env = os.environ["ENVIRONMENT"]
+load_environment(active_env)
 
 app = FastAPI(
     title="fastapi-docker",
@@ -9,6 +15,7 @@ app = FastAPI(
     description="quickstart template."
 )
 
+app.logger = init_logger()
 origins = ["*"] # NOTE ideally we can add our cron service
                 #      and NextGen Leads to this list.
 app.add_middleware(
@@ -19,9 +26,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logger = logging.getLogger("fastapi")
+
 @app.get("/health-check")
 async def root():
     try:
+        logger.info(f"Running in: {active_env}")
         return { "status": "healthy" }
     except Exception as e:
         return { 
