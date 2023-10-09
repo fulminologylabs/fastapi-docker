@@ -34,6 +34,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logger = logging.getLogger("fastapi")
+
 @app.get("/health-check")
 async def root():
     try:
