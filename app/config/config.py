@@ -14,6 +14,7 @@ class Config:
     GENERAL_LOG_DIR : str = "/var/log/hub/general"
     GENERAL_LOG_FILE: str = "/var/log/hub/general.log"
     RINGY_KEY       : str = "123password"
+    HOT_RELOAD      : bool = True if ENVIRONMENT == "local" else False
 
 
 config = Config()
