@@ -23,7 +23,7 @@ uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
 fastapi_logger.handlers = gunicorn_error_logger.handlers
 
 if __name__ != "__main__":
-    fastapi_logger.setLevel()
+    fastapi_logger.setLevel(gunicorn_logger.level)
 else:
     fastapi_logger.setLevel(logging.DEBUG)
 
