@@ -8,10 +8,12 @@ class Config:
     """
         Application configuration module. requires access to environment variables.
     """
-    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "local")
-    API_PREFIX : str = "/api"
-    LOG_DIR    : str = "/var/log/hub"
-    RINGY_KEY  : str = "123password"
+    ENVIRONMENT     : str = os.getenv("ENVIRONMENT", "local")
+    API_PREFIX      : str = "/api"
+    LOG_DIR         : str = "/var/log/hub/"
+    GENERAL_LOG_DIR : str = "/var/log/hub/general"
+    GENERAL_LOG_FILE: str = "/var/log/hub/general.log"
+    RINGY_KEY       : str = "123password"
 
 
 config = Config()
