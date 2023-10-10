@@ -23,9 +23,6 @@ loggers:
   uvicorn:
     info:
       propagate: true
-  gunicorn:
-    info:
-      propagate: true
 
 root:
   level: INFO
