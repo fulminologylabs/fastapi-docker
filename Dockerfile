@@ -9,9 +9,10 @@ COPY ./app ./app
 COPY ./scripts ./scripts
 COPY ./alembic.ini ./
 COPY ./requirements.txt ./
-
+# TODO we should have a virtualenvironment
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN chmod +x ./scripts/init-api.sh
 
 EXPOSE 8000 
 
