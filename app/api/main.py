@@ -1,24 +1,24 @@
-import os
 import sys
 import logging
 from loguru import logger
 from fastapi import FastAPI
 from app.api.app import Server
 from app.config.config import config
+from app.api.endpoints import health_check
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
 from app.logs.logging import InterceptHandler, \
     add_log_handlers, OPTIONS
 
 load_environment()
-health_logger = logging.getLogger("fastapi")
 
 app = FastAPI(
     title="fastapi-docker",
     version="1.0",
     description="quickstart template."
 )
-
+# add endpoints
+app.include_router(health_check.router)
 origins = ["*"] # NOTE ideally we can add our cron service
                 #      and NextGen Leads to this list.
 app.add_middleware(
@@ -28,17 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/health-check")
-async def root():
-    try:
-        health_logger.info(f"Running {os.getenv('ENVIRONMENT')}")
-        return { "status": "healthy" }
-    except Exception as e:
-        return { 
-            "status": "cannot connect to API. Contact nick@fulminologylabs.co and cemhealthadvisor@gmail.com",
-            "error": f"{str(e)}"
-            }
 
 if __name__ == "__main__":
     intercept_handler = InterceptHandler()
