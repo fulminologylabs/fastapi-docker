@@ -1,27 +1,17 @@
 import os
+import sys
 import logging
-import uvicorn
+from loguru import logger
 from fastapi import FastAPI
-from app.logs.custom_logging import init_logger
+from app.api.app import Server
+from app.config.config import config
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.logger import logger as fastapi_logger
+from app.logs.logging import InterceptHandler, \
+    add_log_handlers, OPTIONS
 
-active_env = os.environ["ENVIRONMENT"]
-load_environment(active_env)
-
-init_logger()
-gunicorn_error_logger = logging.getLogger("gunicorn.error")
-gunicorn_logger = logging.getLogger("gunicorn")
-uvicorn_access_logger = logging.getLogger("uvicorn.access")
-uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
-
-fastapi_logger.handlers = gunicorn_error_logger.handlers
-
-if __name__ != "__main__":
-    fastapi_logger.setLevel(gunicorn_logger.level)
-else:
-    fastapi_logger.setLevel(logging.DEBUG)
+load_environment()
+health_logger = logging.getLogger("fastapi")
 
 app = FastAPI(
     title="fastapi-docker",
@@ -42,7 +32,7 @@ app.add_middleware(
 @app.get("/health-check")
 async def root():
     try:
-        logging.info(f"Running {active_env}")
+        health_logger.info(f"Running {os.getenv('ENVIRONMENT')}")
         return { "status": "healthy" }
     except Exception as e:
         return { 
@@ -51,4 +41,8 @@ async def root():
             }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    intercept_handler = InterceptHandler()
+    logging.root.setLevel(config.ROOT_LOG_LEVEL)
+    add_log_handlers(intercept_handler)
+    logger.configure(handlers=[{"sink": sys.stdout, "serialize": config.JSON_LOGS}])
+    Server(app, OPTIONS).run()

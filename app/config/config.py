@@ -1,20 +1,22 @@
 import os
 from app.utils.environment import load_environment
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", "local")
-load_environment(ENVIRONMENT)
+load_environment()
 
 class Config:
     """
         Application configuration module. requires access to environment variables.
     """
-    ENVIRONMENT     : str = os.getenv("ENVIRONMENT", "local")
-    API_PREFIX      : str = "/api"
-    LOG_DIR         : str = "/var/log/hub/"
-    GENERAL_LOG_DIR : str = "/var/log/hub/general"
-    GENERAL_LOG_FILE: str = "/var/log/hub/general.log"
-    RINGY_KEY       : str = "123password"
-    HOT_RELOAD      : bool = True if ENVIRONMENT == "local" else False
-
+    # general
+    ENVIRONMENT              : str = os.getenv("ENVIRONMENT", "local")
+    API_PREFIX               : str = "/api"
+    WORKERS                  : int  = int(os.environ.get("GUNICORN_WORKERS", "5"))
+    # services
+    RINGY_KEY                : str = "123password"
+    # logging
+    GUNICORN_ERROR_LOG_LEVEL : str = os.getenv("GUNICORN_ERROR_LOG_LEVEL", "INFO")
+    ACCESS_LOG_LEVEL         : str = os.getenv("ACCESS_LOG_LEVEL", "ERROR")
+    ROOT_LOG_LEVEL           : str  = os.getenv("ROOT_LOG_LEVEL", "ERROR")
+    JSON_LOGS                : bool = True if os.environ.get("JSON_LOGS", "0") == "1" else False
 
 config = Config()

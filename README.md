@@ -13,6 +13,10 @@ pip install < package >
 pip freeze > requirements.txt
  
 # run application
+touch .env
+
+- Contact an administrator to populate the environment variables.
+
 pip install -r requirements.txt
 python app/main.py --reload
 
@@ -27,3 +31,8 @@ docker run -p 8000:8000 fastapi-docker
 
 # run with docker in detached mode
 docker run -d -p 8000:8000 fastapi-docker
+
+# remove pycache
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+
+find . | grep -E "(.pytest_cache|\*)" | xargs rm -rf
