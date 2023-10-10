@@ -36,3 +36,8 @@ docker run -d -p 8000:8000 fastapi-docker
 find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 find . | grep -E "(.pytest_cache|\*)" | xargs rm -rf
+
+## Begin to White label
+Navigate to app.api.main and edit the params of the
+FastAPI app object. Then, copy to the code to a repository they own and create a branch to continue
+with their project.

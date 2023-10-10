@@ -13,8 +13,6 @@ class Config:
     ENVIRONMENT              : str = os.getenv("ENVIRONMENT", RuntimeEnvironments.PROD.value)
     API_PREFIX               : str = API_PREFIX
     WORKERS                  : int  = int(os.environ.get("GUNICORN_WORKERS", GUNICORN_WORKERS))
-    # services
-    RINGY_KEY                : str = "123password"
     # logging
     GUNICORN_ERROR_LOG_LEVEL : str = os.getenv("GUNICORN_ERROR_LOG_LEVEL", LogLevels.INFO.value)
     ACCESS_LOG_LEVEL         : str = os.getenv("ACCESS_LOG_LEVEL", LogLevels.INFO.value)
