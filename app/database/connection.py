@@ -1,17 +1,41 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from typing import Generator
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm.session import Session
 from app.utils.environment import get_db_uri
 
-engine = create_engine(
-    get_db_uri(with_driver=True),
-    echo=True
-)
-# distributed to application
-Session = sessionmaker(engine)
+def db_dep_injector() -> Generator[Session, None, None]:
+    """
+    Used to dependency inject a database session, per API request
+    """
+    session = _get_session_factory()()
+    try:
+        yield session
+    finally:
+        session.close()
 
-# yields a new session
-def yield_db_session():
-    session = Session()
-    yield session
-    # close session
-    session.close()
+def db_scoped_session():
+    """
+        Used to provide client/service class instances
+        
+        with their own thread-local connection: 
+        https://docs.sqlalchemy.org/en/13/orm/contextual.html#thread-local-scope
+    """
+    session_factory = _get_session_factory()
+    session = scoped_session(session_factory)
+    try:
+        yield session
+    finally:
+        session.remove()
+
+def _get_session_factory() -> sessionmaker:
+    """
+        Called by scoped sessions and dependency injection
+        connection generators
+    """
+    engine = create_engine(
+        get_db_uri(with_driver=True),
+        echo=True,
+        pool_pre_ping=True,
+    )
+    return sessionmaker(autocommit=False, autoflush=False, bind=engine)
