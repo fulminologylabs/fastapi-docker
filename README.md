@@ -1,4 +1,4 @@
-# fastapi-docker
+# lead-crm-integrator
 
 ## Developer Setup
 # Prerequisities
@@ -24,13 +24,13 @@ python app/main.py --reload
 visit: http://localhost:8000/docs after running the application locally
 
 # build with Docker
-docker build -t fastapi-docker .
+docker build -t lead-crm-integrator .
 
 # run with docker
-docker run -p 8000:8000 fastapi-docker
+docker run -p 8000:8000 lead-crm-integrator
 
 # run with docker in detached mode
-docker run -d -p 8000:8000 fastapi-docker
+docker run -d -p 8000:8000 lead-crm-integrator
 
 # remove pycache
 find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf

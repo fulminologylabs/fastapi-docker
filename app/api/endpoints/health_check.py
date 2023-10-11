@@ -2,10 +2,9 @@ import logging
 from app.config.config import config
 from fastapi import APIRouter, HTTPException
 
-
 router = APIRouter()
 logger = logging.getLogger("fastapi")
-
+# NOTE health-check does not relie on synchronous DB connection
 @router.get("/health-check")
 async def root():
     try:
