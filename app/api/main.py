@@ -13,9 +13,9 @@ from app.logs.logging import InterceptHandler, \
 load_environment()
 
 app = FastAPI(
-    title="fastapi-docker",
+    title="NextGen Leads x Ringy Integration API",
     version="1.0",
-    description="quickstart template."
+    description="A custom Ringy interface, for NextGen Leads data."
 )
 # add endpoints
 app.include_router(health_check.router)
