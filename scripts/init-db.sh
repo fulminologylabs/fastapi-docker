@@ -52,6 +52,6 @@ psql -h "${DB_HOST}" -U "${DB_USER}" -tc "SELECT 1 FROM pg_database WHERE datnam
     grep -q 1 || \
     psql -U "${DB_USER}" -p "${DB_PORT}" -c "CREATE DATABASE '${DB_NAME}'"
 # run migrations
->&2 echo "Ready to add migrations TODO."
-#alembic upgrade head
-#>&2 echo "Postgres has been migrated... Ready to go."
+>&2 echo "Running migrations."
+alembic upgrade head
+>&2 echo "Postgres has been migrated... Ready to go."

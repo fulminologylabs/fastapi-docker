@@ -16,11 +16,28 @@ def get_db_uri(with_driver: bool = False) -> str:
         Returns postgres db uri.
     """
     load_environment()
+
     user = os.getenv("DB_USER")
     password = os.getenv("DB_PASSWORD")
     host = os.getenv("DB_HOST")
     port = os.getenv("DB_PORT")
     db = os.getenv("DB_NAME")
+
     if with_driver:
         return f"postgresql://{user}:{password}@{host}:{port}/{db}"
     return f"postgres://{user}:{password}@{host}:{port}/{db}"
+
+def get_test_db_uri(with_driver: bool = False) -> str:
+    """
+        For Tests only.
+    """
+    load_environment()
+
+    user = os.getenv("DB_USER")
+    password = os.getenv("DB_PASSWORD")
+    host = os.getenv("DB_HOST")
+    port = os.getenv("TEST_DB_PORT")
+    db = os.getenv("TEST_DB_NAME")
+    if with_driver:
+        return f"postgresql://{user}:{password}@{host}:{port}/{db}"
+    return f"postgres://{user}:{password}@{host}:{port}/{db}"  

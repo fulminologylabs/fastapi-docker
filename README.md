@@ -37,6 +37,15 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 find . | grep -E "(.pytest_cache|\*)" | xargs rm -rf
 
+# alembic
+Generate from SQLAlchemy Table MetaData
+alembic revision --autogenerate -m "< description >"
+
+Generate manually
+alembic revision -m "< description >"
+
+alembic upgrade head
+
 ## Begin to White label
 Navigate to app.api.main and edit the params of the
 FastAPI app object. Then, copy to the code to a repository they own and create a branch to continue
