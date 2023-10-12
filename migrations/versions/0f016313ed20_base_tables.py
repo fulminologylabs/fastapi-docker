@@ -25,7 +25,7 @@ def upgrade() -> None:
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('statement_timestamp()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True, onupdate=sa.text('statement_timestamp()')),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -37,7 +37,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('statement_timestamp()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True, onupdate=sa.text('statement_timestamp()')),
     sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], onupdate='CASCADE', ondelete='RESTRICT'),
     sa.PrimaryKeyConstraint('id')
