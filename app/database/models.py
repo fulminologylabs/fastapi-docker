@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List
 from datetime import datetime
-from sqlalchemy import ForeignKey, text, Boolean, Column, Integer, String
+from sqlalchemy import ForeignKey, text
 from sqlalchemy.types import JSON, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, \
     relationship
@@ -13,8 +13,8 @@ class Base(DeclarativeBase):
     }
 
 
-class User(Base):
-    __tablename__ = "user"
+class Users(Base):
+    __tablename__ = "users"
     id         : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     email      : Mapped[str] = mapped_column(unique=True, nullable=False)
     name       : Mapped[str | None] = mapped_column(unique=True, index=True, nullable=True)
@@ -32,7 +32,7 @@ class Item(Base):
     created_at : Mapped[datetime] = mapped_column(index=True, server_default=text("statement_timestamp()"))
     updated_at  : Mapped[datetime] = mapped_column(index=True, onupdate=text("statement_timestamp()"), nullable=True)
     # FK
-    owner_id    : Mapped[int] = mapped_column(ForeignKey("user.id", onupdate="CASCADE", ondelete="RESTRICT"), index=True)
+    owner_id    : Mapped[int] = mapped_column(ForeignKey("users.id", onupdate="CASCADE", ondelete="RESTRICT"), index=True)
     # relationship
-    owner       : Mapped[User] = relationship(back_populates="items")
+    owner       : Mapped[Users] = relationship(back_populates="items")
 

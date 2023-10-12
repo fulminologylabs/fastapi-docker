@@ -20,10 +20,10 @@ class Item(ItemBase):
     id         : int 
     owner_id   : int
     created_at : datetime
-    updated_at : datetime
+    updated_at : datetime | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserBase(BaseModel):
@@ -44,8 +44,8 @@ class User(UserBase):
     """
     id         : int
     created_at : datetime
-    updated_at : datetime
+    updated_at : datetime | None = None
     items      : list[Item] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

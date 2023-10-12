@@ -37,6 +37,12 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 find . | grep -E "(.pytest_cache|\*)" | xargs rm -rf
 
+## Database
+chmod +x ./scripts/init-db.sh
+./scripts/init-db.sh
+
+Test the connection:
+psql -h localhost -U postgres -p 5432 -d new_db
 # alembic
 Generate from SQLAlchemy Table MetaData
 alembic revision --autogenerate -m "< description >"

@@ -9,6 +9,7 @@ ENV PATH="#$VIRTUAL_ENV/bin:$PATH"
 WORKDIR /server
 
 COPY ./app ./app
+COPY .env ./
 COPY ./scripts ./scripts
 COPY ./alembic.ini ./
 COPY ./requirements.txt ./

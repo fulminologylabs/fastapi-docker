@@ -1,7 +1,7 @@
 from typing import List
 from app.database import models
 from sqlalchemy.orm import Session
-from app.schema import ItemCreate, Item
+from app.schema.schema import ItemCreate, Item
 
 def get_items(db: Session, skip: int = 0, limit: int = 100) -> List[Item]:
     return db.query(models.Item).offset(skip).limit(limit).all()

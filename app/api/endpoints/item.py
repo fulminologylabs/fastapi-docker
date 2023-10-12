@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from app.schema import Item
+from app.schema.schema import Item
 from sqlalchemy.orm import Session
 from app.database.connection import db_dep_injector
 from fastapi import Depends, HTTPException, status, APIRouter
@@ -10,12 +10,12 @@ logger = logging.getLogger("fastapi")
 router = APIRouter()
 
 @router.get("/{user_id}", response_model=List[Item])
-def get_items_by_user(
+def read_items_by_user(
     user_id: int,
     session: Session = Depends(db_dep_injector),
 ):
     try:
-        user_items = get_items_by_user(user_id, session)
+        user_items = get_items_by_user(user_id=user_id, db=session)
         return user_items
     except Exception as e:
         err_msg = f"Failed to retreive user items for user: {user_id} with error: {e}."
@@ -26,7 +26,7 @@ def get_items_by_user(
         )
     
 @router.get("/all/", response_model=List[Item])
-def get_all_items(
+def read_all_items(
     session: Session = Depends(db_dep_injector),
 ):
     try:

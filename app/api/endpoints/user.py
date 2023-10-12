@@ -2,7 +2,7 @@ import logging
 from typing import List
 from sqlalchemy.orm import Session
 from app.database.connection import db_dep_injector
-from app.schema import User, UserCreate, Item, ItemCreate
+from app.schema.schema import User, UserCreate, Item, ItemCreate
 from app.database.operations.item import create_user_item
 from app.database.operations.user import get_user_by_email, \
     create_user, get_users, get_user
@@ -11,7 +11,7 @@ from fastapi import Depends, HTTPException, status, APIRouter
 logger = logging.getLogger("fastapi")
 router = APIRouter()
 
-@router.post("/create/", response_model=User)
+@router.post("/create", response_model=User)
 def new_user(
     payload: UserCreate,
     session: Session = Depends(db_dep_injector),
@@ -35,14 +35,14 @@ def new_user(
             detail="failed to create user."
         )
     
-@router.get("/view-all/", response_model=List[User])
+@router.get("/view-all", response_model=List[User])
 def read_users(
     skip: int = 0,
     limit: int = 100,
     session: Session = Depends(db_dep_injector),
 ):
     try:
-        users = get_users(skip=skip, limit=limit, session=session)
+        users = get_users(skip=skip, limit=limit, db=session)
         return users
     except Exception as e:
         logger.exception(f"Failed to retrieve users with error: {e}")
@@ -61,6 +61,7 @@ def read_user(
         if db_user is None:
             logger.error(f"Failed to find user with ID: {user_id}")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No user found by this ID.")
+        return db_user
     except HTTPException as addressed_err:
         raise addressed_err
     except Exception as e:
@@ -71,7 +72,7 @@ def read_user(
             detail=err_msg,
         )
     
-@router.get("/{email}", response_model=User)
+@router.get("/email/{email}", response_model=User)
 def read_user_by_email(
     email: str,
     session: Session = Depends(db_dep_injector),
@@ -84,6 +85,7 @@ def read_user_by_email(
                 status_code=status.HTTP_404_NOT_FOUND, 
                 detail="No user found by this email."
             )
+        return db_user
     except HTTPException as addressed_err:
         raise addressed_err
     except Exception as e:
@@ -94,7 +96,7 @@ def read_user_by_email(
             detail=err_msg,
         )
     
-@router.post("/{user_id}/item/create/", response_model=Item)
+@router.post("/{user_id}/item/create", response_model=Item)
 def add_item(
     user_id: int,
     item: ItemCreate,
