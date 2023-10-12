@@ -3,8 +3,8 @@ import logging
 from loguru import logger
 from fastapi import FastAPI
 from app.api.app import Server
+from app.api.router import router
 from app.config.config import config
-from app.api.endpoints import health_check
 from app.utils.environment import load_environment
 from fastapi.middleware.cors import CORSMiddleware
 from app.logs.logging import InterceptHandler, \
@@ -18,7 +18,7 @@ app = FastAPI(
     description="quickstart template."
 )
 # add endpoints
-app.include_router(health_check.router)
+app.include_router(router=router)
 origins = ["*"] # NOTE ideally we can add our cron service
                 #      and NextGen Leads to this list.
 app.add_middleware(
