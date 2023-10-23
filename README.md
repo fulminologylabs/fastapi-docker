@@ -63,3 +63,8 @@ Navigate to app.api.main and edit the params of the
 FastAPI app object. Then, copy to the code to a repository they own and create a branch to continue
 with their project.
 ```
+
+## TODO
+1. `Testing suite`
+2. `Advanced environment loading`
+3. `Digital Ocean deployment spec`
