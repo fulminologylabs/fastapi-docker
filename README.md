@@ -47,6 +47,7 @@ chmod +x ./scripts/init-db.sh
 ```
 Test the connection:
 `psql -h localhost -U postgres -p 5432 -d new_db`
+
 # alembic
 Generate from SQLAlchemy Table MetaData
 `alembic revision --autogenerate -m "< description >"`
