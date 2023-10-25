@@ -1,7 +1,15 @@
 # Python API Template
 ## description
 ```
-Basic.
+Gunicorn is the process manager/application server, where Uvicorn
+is the type of worker process. 
+
+Stil needs TLS Termination Proxy for HTTPS and potentially also playing the role of a Load Balancer, with either NGinx or Traefik.
+
+With Digital Ocean App Platform, the deployment likely contains multiple containers... if so, it is fine to run with just 1 worker
+as Digital Ocean App Platform provides load balancing out-of-the-box.
+
+Takes some inspiration from the FastAPI framework docs regarding single container deployments:  https://fastapi.tiangolo.com/deployment/docker/#single-container
 ```
 
 ## Developer Setup
