@@ -4,7 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # https://pythonspeed.com/articles/activate-virtualenv-dockerfile/
 RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="#$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /server
 
@@ -19,4 +19,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000 
 
-CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--workers", "1", "--port", "8000"]
