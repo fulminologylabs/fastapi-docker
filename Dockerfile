@@ -1,10 +1,10 @@
 FROM python:3.10
-ENV VIRTUAL_ENV=/opt/venv
+#ENV VIRTUAL_ENV=/opt/venv
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # https://pythonspeed.com/articles/activate-virtualenv-dockerfile/
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+#RUN python3 -m venv $VIRTUAL_ENV
+#ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /server
 
