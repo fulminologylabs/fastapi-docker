@@ -1,7 +1,13 @@
 # Python API Template
 ## description
 ```
-Basic.
+Orchestration is considered to be handled at the container level i.e. replication is handled with containers rather than application server process workers. For that reason there is no Gunicorn and the Dockerfile entrypoint/command indicates 1 uvicorn process worker.
+
+Stil needs TLS Termination Proxy for HTTPS and potentially also playing the role of a Load Balancer, with either NGinx or Traefik.
+
+Digital Ocean App Platform leverages load balancing out-of-the-box but if a reverse proxy is required than more configuration is needed (As well as a custom domain for HTTPS with Digital Ocean).
+
+Follows heavily the FastAPI framework docs regarding multi container deployments: https://fastapi.tiangolo.com/deployment/docker/#multiple-containers
 ```
 
 ## Developer Setup
