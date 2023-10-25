@@ -1,6 +1,8 @@
 # Python API Template
 ## description
 ```
+Considered the more robust choice.
+
 Orchestration is considered to be handled at the container level i.e. replication is handled with containers rather than application server process workers. For that reason there is no Gunicorn and the Dockerfile entrypoint/command indicates 1 uvicorn process worker.
 
 Stil needs TLS Termination Proxy for HTTPS and potentially also playing the role of a Load Balancer, with either NGinx or Traefik.
