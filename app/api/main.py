@@ -2,7 +2,6 @@ import sys
 import logging
 from loguru import logger
 from fastapi import FastAPI
-from app.api.app import Server
 from app.api.router import router
 from app.config.config import config
 from app.utils.environment import load_environment
@@ -29,9 +28,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-if __name__ == "__main__":
-    intercept_handler = InterceptHandler()
-    logging.root.setLevel(config.ROOT_LOG_LEVEL)
-    add_log_handlers(intercept_handler)
-    logger.configure(handlers=[{"sink": sys.stdout, "serialize": config.JSON_LOGS}])
-    Server(app, OPTIONS).run()
+# if __name__ == "__main__":
+#     intercept_handler = InterceptHandler()
+#     logging.root.setLevel(config.ROOT_LOG_LEVEL)
+#     add_log_handlers(intercept_handler)
+#     logger.configure(handlers=[{"sink": sys.stdout, "serialize": config.JSON_LOGS}])
+#     Server(app, OPTIONS).run()

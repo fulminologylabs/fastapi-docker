@@ -42,6 +42,7 @@ def read_users(
     session: Session = Depends(db_dep_injector),
 ):
     try:
+        logging.info("Retrieving users.")
         users = get_users(skip=skip, limit=limit, db=session)
         return users
     except Exception as e:

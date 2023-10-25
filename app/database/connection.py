@@ -4,17 +4,6 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.session import Session
 from app.utils.environment import get_db_uri
 
-def db_dep_injector():
-    """
-    Used to dependency inject a database session, per API request
-    """
-    session = _get_session_factory()
-    db = session()
-    try:
-        yield db
-    finally:
-        db.close()
-
 def _get_session_factory() -> sessionmaker:
     """
         Called by scoped sessions and dependency injection
@@ -25,6 +14,18 @@ def _get_session_factory() -> sessionmaker:
         pool_pre_ping=True,
     )
     return sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+SessionLocal = _get_session_factory()
+
+def db_dep_injector():
+    """
+    Used to dependency inject a database session, per API request
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # def db_scoped_session():
 #     """
