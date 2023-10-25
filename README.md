@@ -4,7 +4,7 @@
 Gunicorn is the process manager/application server, where Uvicorn
 is the type of worker process. 
 
-Stil needs TLS Termination Proxy for HTTPS and potentially also playing the role of a Load Balancer, with either NGinx or Traefik.
+Stil needs TLS Termination Proxy for HTTPS and potentially also playing the role of a Load Balancer, with either NGinx or Traefik. Note that Digital Ocean requires a custom domain to begin setup for HTTPS.
 
 With Digital Ocean App Platform, the deployment likely contains multiple containers... if so, it is fine to run with just 1 worker
 as Digital Ocean App Platform provides load balancing out-of-the-box.
